@@ -11,10 +11,6 @@ public class ParticleSimulatorGUI extends JPanel {
     private List<Particle> particles = new CopyOnWriteArrayList<>(); // Thread-safe ArrayList ideal for occasional writes
     private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    private static List<Wall> walls = new CopyOnWriteArrayList<>();
-    public static List<Wall> getWalls() {
-        return walls;
-    }
     private long lastTime = System.currentTimeMillis();
     private int frames = 0;
     private String fps = "FPS: 0";
@@ -24,13 +20,6 @@ public class ParticleSimulatorGUI extends JPanel {
     private long lastUpdateTime = System.currentTimeMillis();
 
     public ParticleSimulatorGUI() {
-//        for(int i = 0; i < 100; i++) {
-//            particles.add(new Particle(
-//                    (int)(Math.random() * WINDOW_WIDTH),
-//                    (int)(Math.random() * WINDOW_HEIGHT),
-//                    5, // Velocity
-//                    Math.random() * 360)); // Angle
-//        }
 
         // Swing Timer for animation
         // Analogy: This is just like specifying an FPS limit in a video game instead of uncapped FPS.
@@ -55,10 +44,7 @@ public class ParticleSimulatorGUI extends JPanel {
             lastUpdateTime = currentTime;
 
             // Submit each particle's run method for parallel execution
-//        long tic = System.currentTimeMillis();
             particles.forEach(particle -> executor.submit(() -> particle.update(deltaTime))); // At 60k particles, this takes ~3ms
-//        long toc = System.currentTimeMillis();
-//        System.out.println("Submitted all particles in " + (toc - tic) + " ms");
 
             // Update particle count string with the current size of the particles list
             particleCount = "Particle Count: " + particles.size();
@@ -71,15 +57,9 @@ public class ParticleSimulatorGUI extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-//        long tic = System.currentTimeMillis();
-        for(Wall wall: walls){
-            wall.draw(g);
-        }
         for (Particle particle : particles) {
             particle.draw(g); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
-//        long toc = System.currentTimeMillis();
-//        System.out.println("Drawn all particles in " + (toc - tic) + " ms");
 
 
         frames++; // Increment frame count
@@ -138,11 +118,6 @@ public class ParticleSimulatorGUI extends JPanel {
         }
     }
 
-    public void addWall(int x1, int y1, int x2, int y2){
-        walls.add(new Wall(x1, y1, x2, y2, WINDOW_HEIGHT));
-        System.out.println("Wall added: (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
-        repaint();
-    }
 
     private void setupControlPanel(JPanel panel) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -159,10 +134,6 @@ public class ParticleSimulatorGUI extends JPanel {
         JPanel panelVelocity = createPanelForVelocityParticles();
         panel.add(panelVelocity);
 
-        // Section for adding walls
-        JPanel paneWalls = createPanelForWalls();
-        panel.add(paneWalls);
-
         JPanel panelToggle = createPanelForClearAndPause();
         panel.add(panelToggle);
 
@@ -174,19 +145,9 @@ public class ParticleSimulatorGUI extends JPanel {
         repaint();
     }
 
-    private void clearScreen(){
-        particles.clear();
-        walls.clear();
-        repaint();
-    }
 
     private void clearParticles(){
         particles.clear();
-        repaint();
-    }
-
-    private void clearWalls(){
-        walls.clear();
         repaint();
     }
 
@@ -312,57 +273,14 @@ public class ParticleSimulatorGUI extends JPanel {
         return panel;
     }
 
-    private JPanel createPanelForWalls(){
-        JPanel panel = new JPanel(new FlowLayout());
-
-        JTextField x1Field = new JTextField("320", 5);
-        JTextField y1Field = new JTextField("240", 5);
-        JTextField x2Field = new JTextField("640", 5);
-        JTextField y2Field = new JTextField("560", 5);
-        JButton addButton = new JButton("Add Wall");
-
-        addButton.addActionListener(e->{
-            int x1 = Integer.parseInt(x1Field.getText());
-            int y1 = Integer.parseInt(y1Field.getText());
-            int x2 = Integer.parseInt(x2Field.getText());
-            int y2 = Integer.parseInt(y2Field.getText());
-
-            addWall(x1, y1, x2, y2);
-        });
-
-        panel.add(new JLabel("X1:"));
-        panel.add(x1Field);
-        panel.add(new JLabel("Y1:"));
-        panel.add(y1Field);
-        panel.add(new JLabel("X2:"));
-        panel.add(x2Field);
-        panel.add(new JLabel("Y2:"));
-        panel.add(y2Field);
-        panel.add(addButton);
-
-        return panel;
-    }
-
     private JPanel createPanelForClearAndPause(){
         JPanel panel = new JPanel(new FlowLayout());
 
-        // Button to clear screen
+        // Button to clear Particles
         JButton clearParticlesButton = new JButton("Clear Particles");
         clearParticlesButton.addActionListener(e->clearParticles());
         clearParticlesButton.setPreferredSize(new Dimension(120,30));
         panel.add(clearParticlesButton);
-
-        // Button to clear screen
-        JButton clearWallsButton = new JButton("Clear Walls");
-        clearWallsButton.addActionListener(e->clearWalls());
-        clearWallsButton.setPreferredSize(new Dimension(120,30));
-        panel.add(clearWallsButton);
-
-        // Button to clear screen
-        JButton clearScreenButton = new JButton("Clear Screen");
-        clearScreenButton.addActionListener(e->clearScreen());
-        clearScreenButton.setPreferredSize(new Dimension(120,30));
-        panel.add(clearScreenButton);
 
         // Pause btn
         JButton pauseButton = new JButton("Pause Renderer");

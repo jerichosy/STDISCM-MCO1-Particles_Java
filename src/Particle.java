@@ -39,53 +39,10 @@ public class Particle {
             nextY = ParticleSimulatorGUI.WINDOW_HEIGHT; // Correct position
         }
 
-        // New collision logic for diagonal walls
-        for(Wall wall: ParticleSimulatorGUI.getWalls()) {
-            if (checkIntersection(x, y, nextX, nextY, wall.getX1(), wall.getY1(), wall.getX2(), wall.getY2())) {
-                // Calculate wall vector components
-                double wallDX = wall.getX2() - wall.getX1();
-                double wallDY = wall.getY2() - wall.getY1();
-                // Calculate wall normal (perpendicular vector)
-                double wallNormalX = -wallDY;
-                double wallNormalY = wallDX;
-
-                // Normalize the wall normal
-                double normLength = Math.sqrt(wallNormalX * wallNormalX + wallNormalY * wallNormalY);
-                wallNormalX /= normLength;
-                wallNormalY /= normLength;
-
-                // Calculate the velocity vector
-                double velocityX = velocityPerUpdate * Math.cos(Math.toRadians(angle));
-                double velocityY = -velocityPerUpdate * Math.sin(Math.toRadians(angle));
-
-                // Calculate the dot product of velocity and wall normal
-                double dotProduct = velocityX * wallNormalX + velocityY * wallNormalY;
-
-                // Calculate the reflection vector
-                double reflectX = velocityX - 2 * dotProduct * wallNormalX;
-                double reflectY = velocityY - 2 * dotProduct * wallNormalY;
-
-                // Convert reflection vector to angle
-                double newAngleRadians = Math.atan2(-reflectY, reflectX);
-                angle = Math.toDegrees(newAngleRadians);
-
-                // Normalize the angle
-                angle = (angle + 360) % 360;
-
-                // Recalculate nextX and nextY based on the new angle
-                nextX = x + (int) (Math.cos(newAngleRadians) * velocityPerUpdate);
-                nextY = y - (int) (Math.sin(newAngleRadians) * velocityPerUpdate);
-
-                break; // Handle one collision per update
-            }
-        }
-
         // Update positions after handling collisions
         x = nextX;
         y = nextY;
 
-//        // Normalize the angle
-//        angle = (angle + 360) % 360;
     }
 
     private boolean checkIntersection(
