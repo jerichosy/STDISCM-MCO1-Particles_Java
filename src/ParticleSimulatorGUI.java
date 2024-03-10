@@ -1,11 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ParticleSimulatorGUI extends JPanel {
+public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
     private List<Particle> particles = new CopyOnWriteArrayList<>(); // Thread-safe ArrayList ideal for occasional writes
@@ -36,6 +39,8 @@ public class ParticleSimulatorGUI extends JPanel {
             frames = 0; // Reset frame count
             lastTime = currentTime;
         }).start();
+
+        this.addKeyListener(this);
 
     }
 
@@ -308,6 +313,10 @@ public class ParticleSimulatorGUI extends JPanel {
 
         if (!isInDeveloperMode){
             sprite = new Sprite("src/Images/sprite.png", 640, 360, 50, 50);
+
+            // only enable key listening on explorer mode
+            setFocusable(true);
+            requestFocusInWindow();
         } else {
             sprite = null;
         }
@@ -342,5 +351,45 @@ public class ParticleSimulatorGUI extends JPanel {
             frame.setResizable(false);
             frame.setVisible(true);
         });
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        int displacement = 10;
+        if(sprite != null) {
+            switch (keyCode){
+                case KeyEvent.VK_UP:
+                    if(sprite.getY() > 0){
+                        sprite.move(0, -displacement);
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if(sprite.getY() + sprite.getHeight() < WINDOW_HEIGHT){
+                        sprite.move(0, displacement);
+                    }
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if(sprite.getX() > 0){
+                        sprite.move(-displacement, 0);
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if(sprite.getX() + sprite.getWidth() < WINDOW_WIDTH) {
+                        sprite.move(displacement, 0);
+                    }
+                    break;
+            }
+            repaint();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }

@@ -20,4 +20,25 @@ public class Sprite {
     public void draw(Graphics g, Component observer){
         image.paintIcon(observer, g, x, y);
     }
+
+    public  void move(int dx, int dy){
+        x += dx;
+        y += dy;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
