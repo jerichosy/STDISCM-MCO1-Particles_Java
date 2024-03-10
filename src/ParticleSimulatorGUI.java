@@ -17,6 +17,7 @@ public class ParticleSimulatorGUI extends JPanel {
     private String particleCount = "Particle Count: 0";
     private boolean isPaused = false;
     private boolean isInDeveloperMode = true;
+    private Sprite sprite;
 
     private long lastUpdateTime = System.currentTimeMillis();
 
@@ -95,6 +96,10 @@ public class ParticleSimulatorGUI extends JPanel {
         g.setColor(Color.WHITE);
         g.drawString("Renderer Paused: " + isPaused, 10, 100);
 
+        if (sprite != null){
+            sprite.draw(g, this);
+        }
+
     }
 
     public void addParticlesLinear(int n, Point startPoint, Point endPoint, double velocity, double angle) {
@@ -116,7 +121,6 @@ public class ParticleSimulatorGUI extends JPanel {
             particles.add(new Particle(startPoint.x, startPoint.y, velocity, angle, WINDOW_HEIGHT));
         }
     }
-
     public void addParticlesVelocity(int n, Point startPoint, double startVelocity, double endVelocity, double angle) {
         double deltaVelocity = (endVelocity - startVelocity) / (n - 1);
 
@@ -156,7 +160,6 @@ public class ParticleSimulatorGUI extends JPanel {
         particles.clear();
         repaint();
     }
-
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -302,6 +305,12 @@ public class ParticleSimulatorGUI extends JPanel {
     private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
         isInDeveloperMode = !isInDeveloperMode;
         modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
+
+        if (!isInDeveloperMode){
+            sprite = new Sprite("src/Images/sprite.png", 640, 360, 50, 50);
+        } else {
+            sprite = null;
+        }
         repaint();
     }
 
