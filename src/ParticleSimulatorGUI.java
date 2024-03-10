@@ -16,6 +16,7 @@ public class ParticleSimulatorGUI extends JPanel {
     private String fps = "FPS: 0";
     private String particleCount = "Particle Count: 0";
     private boolean isPaused = false;
+    private boolean isInDeveloperMode = false;
 
     private long lastUpdateTime = System.currentTimeMillis();
 
@@ -80,13 +81,20 @@ public class ParticleSimulatorGUI extends JPanel {
         g.setColor(Color.WHITE); // White color for the text
         g.drawString(particleCount, 10, 45); // Draw Particle Count on screen
 
+        // Display Developer/Explorer mode button
+        g.setColor(Color.GRAY); // Semi-transparent gray color
+        g.fillRect(5, 60, 150, 20); // Adjust size as needed
+        g.setColor(Color.WHITE);
+        g.drawString(isInDeveloperMode ? "Developer Mode" : "Explorer Mode", 10, 75);
+
         // Display pause state with dynamic color
         g.setColor(isPaused ? Color.RED : new Color(0, 255, 0)); // Red if paused, Green if not
-        g.fillRect(5, 60, 150, 20); // Adjust size as needed
+        g.fillRect(5, 85, 150, 20); // Adjust size as needed
 
         // display pause state
         g.setColor(Color.WHITE);
-        g.drawString("Renderer Paused: " + isPaused, 10, 75);
+        g.drawString("Renderer Paused: " + isPaused, 10, 100);
+
     }
 
     public void addParticlesLinear(int n, Point startPoint, Point endPoint, double velocity, double angle) {
@@ -137,6 +145,9 @@ public class ParticleSimulatorGUI extends JPanel {
         JPanel panelToggle = createPanelForClearAndPause();
         panel.add(panelToggle);
 
+        JPanel panelModeToggle = createPanelForModeToggle();
+        panel.add(panelModeToggle);
+
     }
 
     private void togglePause(JButton pauseButton){
@@ -152,6 +163,7 @@ public class ParticleSimulatorGUI extends JPanel {
     }
 
     // TODO: Add input validation
+
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -192,8 +204,8 @@ public class ParticleSimulatorGUI extends JPanel {
 
         return panel;
     }
-
     // TODO: Add input validation
+
     private JPanel createPanelForAngularParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -232,8 +244,8 @@ public class ParticleSimulatorGUI extends JPanel {
 
         return panel;
     }
-
     // TODO: Add input validation
+
     private JPanel createPanelForVelocityParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -272,7 +284,6 @@ public class ParticleSimulatorGUI extends JPanel {
 
         return panel;
     }
-
     private JPanel createPanelForClearAndPause(){
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -289,6 +300,20 @@ public class ParticleSimulatorGUI extends JPanel {
         panel.add(pauseButton);
 
         return panel;
+    }
+    private JPanel createPanelForModeToggle() {
+        JPanel panel = new JPanel(new FlowLayout());
+
+        JButton modeToggleButton = new JButton("Explorer Mode");
+        modeToggleButton.addActionListener(e -> toggleDeveloperExplorerMode(modeToggleButton));
+        panel.add(modeToggleButton);
+
+        return panel;
+    }
+    private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
+        isInDeveloperMode = !isInDeveloperMode;
+        modeToggleButton.setText(isInDeveloperMode ? "Developer Mode" : "Explorer Mode");
+        repaint();
     }
 
     public static void main(String[] args) {
