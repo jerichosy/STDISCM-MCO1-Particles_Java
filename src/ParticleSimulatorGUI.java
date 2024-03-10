@@ -16,7 +16,7 @@ public class ParticleSimulatorGUI extends JPanel {
     private String fps = "FPS: 0";
     private String particleCount = "Particle Count: 0";
     private boolean isPaused = false;
-    private boolean isInDeveloperMode = false;
+    private boolean isInDeveloperMode = true;
 
     private long lastUpdateTime = System.currentTimeMillis();
 
@@ -125,8 +125,6 @@ public class ParticleSimulatorGUI extends JPanel {
             particles.add(new Particle(startPoint.x, startPoint.y, velocity, angle, WINDOW_HEIGHT));
         }
     }
-
-
     private void setupControlPanel(JPanel panel) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -149,20 +147,15 @@ public class ParticleSimulatorGUI extends JPanel {
         panel.add(panelModeToggle);
 
     }
-
     private void togglePause(JButton pauseButton){
         isPaused = !isPaused;
         pauseButton.setText(isPaused ? "Resume Renderer" : "Pause Renderer"); // Update button text based on pause state
         repaint();
     }
-
-
     private void clearParticles(){
         particles.clear();
         repaint();
     }
-
-    // TODO: Add input validation
 
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
@@ -204,8 +197,6 @@ public class ParticleSimulatorGUI extends JPanel {
 
         return panel;
     }
-    // TODO: Add input validation
-
     private JPanel createPanelForAngularParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -244,8 +235,6 @@ public class ParticleSimulatorGUI extends JPanel {
 
         return panel;
     }
-    // TODO: Add input validation
-
     private JPanel createPanelForVelocityParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -304,7 +293,7 @@ public class ParticleSimulatorGUI extends JPanel {
     private JPanel createPanelForModeToggle() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        JButton modeToggleButton = new JButton("Explorer Mode");
+        JButton modeToggleButton = new JButton("Switch to Explorer Mode");
         modeToggleButton.addActionListener(e -> toggleDeveloperExplorerMode(modeToggleButton));
         panel.add(modeToggleButton);
 
@@ -312,7 +301,7 @@ public class ParticleSimulatorGUI extends JPanel {
     }
     private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
         isInDeveloperMode = !isInDeveloperMode;
-        modeToggleButton.setText(isInDeveloperMode ? "Developer Mode" : "Explorer Mode");
+        modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
         repaint();
     }
 
