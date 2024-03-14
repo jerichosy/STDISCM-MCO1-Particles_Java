@@ -137,17 +137,19 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private void setupControlPanel(JPanel panel) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Section for Adding Linear Particles
-        JPanel panelLinear = createPanelForLinearParticles();
-        panel.add(panelLinear);
+        if(isInDeveloperMode){
+            // Section for Adding Linear Particles
+            JPanel panelLinear = createPanelForLinearParticles();
+            panel.add(panelLinear);
 
-        // Section for Adding Angular Distribution Particles
-        JPanel panelAngular = createPanelForAngularParticles();
-        panel.add(panelAngular);
+            // Section for Adding Angular Distribution Particles
+            JPanel panelAngular = createPanelForAngularParticles();
+            panel.add(panelAngular);
 
-        // Section for Adding Velocity Distribution Particles
-        JPanel panelVelocity = createPanelForVelocityParticles();
-        panel.add(panelVelocity);
+            // Section for Adding Velocity Distribution Particles
+            JPanel panelVelocity = createPanelForVelocityParticles();
+            panel.add(panelVelocity);
+        }
 
         JPanel panelToggle = createPanelForClearAndPause();
         panel.add(panelToggle);
@@ -310,6 +312,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
         isInDeveloperMode = !isInDeveloperMode;
         modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
+        JPanel currentPanel = (JPanel) modeToggleButton.getParent().getParent();
 
         if (!isInDeveloperMode){
             sprite = new Sprite("src/Images/sprite.png", 640, 360, 50, 50);
@@ -317,9 +320,18 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             // only enable key listening on explorer mode
             setFocusable(true);
             requestFocusInWindow();
+
+            currentPanel.remove(0);
+            currentPanel.remove(0);
+            currentPanel.remove(0);
+
         } else {
             sprite = null;
+            currentPanel.add(createPanelForLinearParticles(),0);
+            currentPanel.add(createPanelForAngularParticles(),1);
+            currentPanel.add(createPanelForVelocityParticles(),2);
         }
+
         repaint();
     }
 
