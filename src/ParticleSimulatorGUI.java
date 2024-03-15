@@ -162,10 +162,20 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         isPaused = !isPaused;
         pauseButton.setText(isPaused ? "Resume Renderer" : "Pause Renderer"); // Update button text based on pause state
         repaint();
+
+        if(!isPaused){
+            setFocusable(true);
+            requestFocusInWindow();
+        }
     }
     private void clearParticles(){
         particles.clear();
         repaint();
+
+        if(!isPaused){
+            setFocusable(true);
+            requestFocusInWindow();
+        }
     }
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
