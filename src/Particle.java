@@ -5,11 +5,25 @@ public class Particle {
     private double velocity;
     private double angle; // In degrees
 
+    private boolean isMagnified = false;
+
+    //    private boolean isInExplorerMode = false;
+    private final int PERIPHERY_WIDTH = 33;
+    private final int PERIPHERY_HEIGHT = 19;
+
+    private final int gridWidth = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_WIDTH;
+    private final int gridHeight = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_HEIGHT;
+
+
     public Particle(int x, int y, double velocity, double angle, int WINDOW_HEIGHT) {
         this.x = x;
         this.y = WINDOW_HEIGHT - y;
         this.velocity = velocity;
         this.angle = angle;
+    }
+
+    public void setMagnified(boolean toggle) {
+        this.isMagnified = toggle;
     }
 
     public void update(double deltaTime) {
@@ -65,7 +79,10 @@ public class Particle {
     }
 
     public void draw(Graphics g) {
-        g.fillOval(x, y, 5, 5); // Draw particle as a small circle
+        if (isMagnified){
+            g.fillOval(x, y, gridHeight, gridHeight); // Draw particle as a small circle
+        }
+        else g.fillOval(x, y, 5, 5); // Draw particle as a small circle
     }
 
     // Getter methods to use in the GUI for drawing

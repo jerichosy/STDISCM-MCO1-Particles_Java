@@ -24,6 +24,8 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
     private long lastUpdateTime = System.currentTimeMillis();
 
+
+
     public ParticleSimulatorGUI() {
 
         // Swing Timer for animation
@@ -65,6 +67,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         super.paintComponent(g);
 
         for (Particle particle : particles) {
+            particle.setMagnified(!isInDeveloperMode);
             particle.draw(g); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
 
