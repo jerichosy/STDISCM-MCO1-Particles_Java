@@ -79,30 +79,48 @@ public class Particle {
     }
 
     public void draw(Graphics g, int spriteX, int spriteY) {
+        if (isMagnified) {
+            // Calculate the drawX and drawY based on the sprite's position
+            int drawX = spriteX + (x - spriteX) * gridWidth - gridWidth / 2;
+            int drawY = spriteY + (y - spriteY) * gridHeight - gridHeight / 2;
 
-        if (isMagnified){
-
-            //get position of sprite, check if within area
-            int[] point = new int[]{x, y};
-
-            int[] rectangle = new int[]{spriteX - 16, spriteY - 9, spriteX + 16, spriteY + 9}; //top left (x - 16, y - 9), bottom right (x + 16, y + 9)
-
-            if (isPointInsideRectangle(point, rectangle)){
-
-                int drawX = gridWidth * (x - spriteX); // will result to negative when particle is at left of sprite, and positive when at right
-                if(drawX < 0){
-                    drawX = ParticleSimulatorGUI.WINDOW_WIDTH + drawX;
-                }
-                int drawY = gridHeight * (y - spriteY);
-                if(drawY < 0){
-                    drawY = ParticleSimulatorGUI.WINDOW_HEIGHT + drawY;
-                }
-
+            // Check if the calculated coordinates are within the bounds of the window
+            if (drawX >= 0 && drawX < ParticleSimulatorGUI.WINDOW_WIDTH &&
+                    drawY >= 0 && drawY < ParticleSimulatorGUI.WINDOW_HEIGHT) {
                 g.fillOval(drawX, drawY, gridHeight, gridHeight); // Draw particle as a small circle
             }
-
+        } else {
+            // Draw the particle at its original position
+            g.fillOval(x, y, 5, 5); // Draw particle as a small circle
         }
-        else g.fillOval(x, y, 5, 5); // Draw particle as a small circle
+
+
+
+//        if (isMagnified){
+//
+//            //get position of sprite, check if within area
+//            int[] point = new int[]{x, y};
+//
+//            int[] rectangle = new int[]{spriteX - 16, spriteY - 9, spriteX + 16, spriteY + 9}; //top left (x - 16, y - 9), bottom right (x + 16, y + 9)
+//
+//            if (isPointInsideRectangle(point, rectangle)){
+//
+//                int drawX = gridWidth * (x - spriteX); // will result to negative when particle is at left of sprite, and positive when at right
+//                if(drawX < 0){
+//                    drawX = ParticleSimulatorGUI.WINDOW_WIDTH + drawX;
+//                }
+//                int drawY = gridHeight * (y - spriteY);
+//                if(drawY < 0){
+//                    drawY = ParticleSimulatorGUI.WINDOW_HEIGHT + drawY;
+//                }
+//
+//                g.fillOval(drawX, drawY, gridHeight, gridHeight); // Draw particle as a small circle
+//            }
+//
+//        }
+//        else g.fillOval(x, y, 5, 5); // Draw particle as a small circle
+
+
     }
 
     // Getter methods to use in the GUI for drawing

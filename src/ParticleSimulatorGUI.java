@@ -422,7 +422,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(sprite.getY() + sprite.getHeight() < WINDOW_HEIGHT){
+                    if(sprite.getY() + sprite.getHeight() <= WINDOW_HEIGHT){
                         //sprite.move(0, displacementY);
                         sprite.updatePosition(0, displacement);
                     }
@@ -434,7 +434,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(sprite.getX() + sprite.getWidth() < WINDOW_WIDTH) {
+                    if(sprite.getX() + sprite.getWidth() <= WINDOW_WIDTH) {
                         //sprite.move(displacementX, 0);
                         sprite.updatePosition(displacement, 0);
                     }
