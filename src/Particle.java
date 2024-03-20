@@ -80,7 +80,7 @@ public class Particle {
 
     public void draw(Graphics g, int offsetX, int offsetY) {
         if (isMagnified) {
-            g.fillOval(x - offsetX, y - offsetY, gridHeight, gridHeight); // Draw particle with magnified size and apply offset
+            g.fillOval(x - offsetX, y - offsetY, gridWidth, gridHeight); // Draw particle with magnified size and apply offset
         } else {
             g.fillOval(x - offsetX, y - offsetY, 5, 5); // Draw particle with default size and apply offset
         }
