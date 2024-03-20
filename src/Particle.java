@@ -78,22 +78,22 @@ public class Particle {
         return false;
     }
 
-    public void draw(Graphics g) {
-
+    public void draw(Graphics g, int spriteX, int spriteY) {
 
         if (isMagnified){
 
             //get position of sprite, check if within area
             int[] point = new int[]{x, y};
-            int[] rectangle = new int[]{Sprite.x - 16, Sprite.y - 9, Sprite.x + 16, Sprite.y + 9}; //top left (x - 16, y - 9), bottom right (x + 16, y + 9)
+
+            int[] rectangle = new int[]{spriteX - 16, spriteY - 9, spriteX + 16, spriteY + 9}; //top left (x - 16, y - 9), bottom right (x + 16, y + 9)
 
             if (isPointInsideRectangle(point, rectangle)){
 
-                int drawX = gridWidth * (x - Sprite.x); // will result to negative when particle is at left of sprite, and positive when at right
+                int drawX = gridWidth * (x - spriteX); // will result to negative when particle is at left of sprite, and positive when at right
                 if(drawX < 0){
                     drawX = ParticleSimulatorGUI.WINDOW_WIDTH + drawX;
                 }
-                int drawY = gridHeight * (y - Sprite.y);
+                int drawY = gridHeight * (y - spriteY);
                 if(drawY < 0){
                     drawY = ParticleSimulatorGUI.WINDOW_HEIGHT + drawY;
                 }

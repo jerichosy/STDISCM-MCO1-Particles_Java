@@ -68,7 +68,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
         for (Particle particle : particles) {
             particle.setMagnified(!isInDeveloperMode);
-            particle.draw(g); // Let each particle draw itself
+            particle.draw(g, sprite.getX(), sprite.getY()); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
 
 
