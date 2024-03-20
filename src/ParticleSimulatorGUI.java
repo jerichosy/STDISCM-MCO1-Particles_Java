@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,6 +27,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private Sprite sprite = new Sprite("src/Images/sprite.png", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, Particle.gridWidth, Particle.gridHeight);
 
     private long lastUpdateTime = System.currentTimeMillis();
+    private BufferedImage backgroundImage;
 
 
 
@@ -43,6 +48,12 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         }).start();
 
         this.addKeyListener(this);
+
+        try {
+            backgroundImage = ImageIO.read(new File("src/Images/bg.jpg")); // Replace "path/to/your/image.jpg" with the actual path to your image
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -66,11 +77,23 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+
+        int spriteX = sprite.getDrawX();
+        int spriteY = sprite.getDrawY();
+
+        
+
+        // Translate the graphics context to center the sprite on the screen
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.translate(WINDOW_WIDTH / 2 - spriteX, WINDOW_HEIGHT / 2 - spriteY);
+
         for (Particle particle : particles) {
             particle.setMagnified(!isInDeveloperMode);
             particle.draw(g, sprite.getX(), sprite.getY()); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
 
+        g2d.dispose(); // Dispose of the graphics context
 
         frames++; // Increment frame count
 
@@ -389,6 +412,11 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         int keyCode = e.getKeyCode();
         int displacementX = Particle.gridWidth;
         int displacementY = Particle.gridHeight;
+
+        int centerX = WINDOW_WIDTH / 2;
+        int centerY = WINDOW_HEIGHT / 2;
+
+
         if(sprite != null) {
             switch (keyCode){
                 case KeyEvent.VK_UP:
