@@ -78,12 +78,14 @@ public class Particle {
         return false;
     }
 
-    public void draw(Graphics g) {
-        if (isMagnified){
-            g.fillOval(x, y, gridHeight, gridHeight); // Draw particle as a small circle
+    public void draw(Graphics g, int offsetX, int offsetY) {
+        if (isMagnified) {
+            g.fillOval(x - offsetX, y - offsetY, gridHeight, gridHeight); // Draw particle with magnified size and apply offset
+        } else {
+            g.fillOval(x - offsetX, y - offsetY, 5, 5); // Draw particle with default size and apply offset
         }
-        else g.fillOval(x, y, 5, 5); // Draw particle as a small circle
     }
+
 
     // Getter methods to use in the GUI for drawing
     public int getX() {
