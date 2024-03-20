@@ -29,11 +29,33 @@ public class Sprite {
         image.paintIcon(observer, g, drawX, drawY);
     }
 
-    public  void move(int dx, int dy){
-        drawX += dx;
-        drawY += dy;
-    }
+//    public  void move(int dx, int dy){
+//        drawX += dx;
+//        drawY += dy;
+//    }
 
+    public void move(int dx, int dy) {
+        int newX = drawX + dx;
+        int newY = drawY + dy;
+
+        // Ensure sprite stays centered in its local canvas
+        int canvasWidth = 500;
+        int canvasHeight = 360;
+
+        // Calculate bounds for sprite's movement within the local canvas
+        int minX = canvasWidth / 2;
+        int maxX = ParticleSimulatorGUI.WINDOW_WIDTH - canvasWidth / 2;
+        int minY = canvasHeight / 2;
+        int maxY = ParticleSimulatorGUI.WINDOW_HEIGHT - canvasHeight / 2;
+
+        // Update sprite position within the bounds
+        drawX = Math.max(minX, Math.min(maxX, newX));
+        drawY = Math.max(minY, Math.min(maxY, newY));
+
+        System.out.println("newX: " + newX + ", newY: " + newY);
+        System.out.println("minX: " + minX + ", maxX: " + maxX + ", minY: " + minY + ", maxY: " + maxY);
+        System.out.println("dx: " + dx + ", dy: " + dy);
+    }
     public void updatePosition(int x, int y){
         this.x += x;
         this.y += y;
@@ -93,3 +115,8 @@ public class Sprite {
         );
     }
 }
+
+// UL -> X: 623,  Y: 350
+// LL -> X: 623,  Y: 369
+// UR -> X: 656,  Y: 350
+// LR -> X: 656,  Y: 369

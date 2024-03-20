@@ -42,7 +42,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             long currentTime = System.currentTimeMillis();
             long delta = currentTime - lastTime;
             fps = String.format("FPS: %.1f", frames * 1000.0 / delta);
-            System.out.println(frames + " frames in the last " + delta + " ms");
+            //System.out.println(frames + " frames in the last " + delta + " ms");
             frames = 0; // Reset frame count
             lastTime = currentTime;
         }).start();
@@ -77,12 +77,20 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+        }
+
+        if (sprite.isWillSpawn()) {
+            // Assuming you have a BufferedImage named backgroundImage
+            backgroundImage.getScaledInstance(sprite.getWidth(), sprite.getHeight(), Image.SCALE_DEFAULT);
+            g.drawImage(backgroundImage, 0, 0, null);
+        }
 
         int spriteX = sprite.getDrawX();
         int spriteY = sprite.getDrawY();
 
-        
+
 
         // Translate the graphics context to center the sprite on the screen
         Graphics2D g2d = (Graphics2D) g.create();
@@ -410,8 +418,10 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        int displacementX = Particle.gridWidth;
-        int displacementY = Particle.gridHeight;
+//        int displacementX = Particle.gridWidth;
+//        int displacementY = Particle.gridHeight;
+        int displacementX = 20;
+        int displacementY = 20;
 
         int centerX = WINDOW_WIDTH / 2;
         int centerY = WINDOW_HEIGHT / 2;
@@ -421,25 +431,25 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             switch (keyCode){
                 case KeyEvent.VK_UP:
                     if(sprite.getDrawY() > 0){
-                        sprite.move(0, -displacementY);
+                        //sprite.move(0, -displacementY);
                         sprite.updatePosition(0, -1);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
                     if(sprite.getDrawY() + sprite.getHeight() < WINDOW_HEIGHT){
-                        sprite.move(0, displacementY);
+                        //sprite.move(0, displacementY);
                         sprite.updatePosition(0, 1);
                     }
                     break;
                 case KeyEvent.VK_LEFT:
                     if(sprite.getDrawX() > 0){
-                        sprite.move(-displacementX, 0);
+                        //sprite.move(-displacementX, 0);
                         sprite.updatePosition(-1, 0);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
                     if(sprite.getDrawX() + sprite.getWidth() < WINDOW_WIDTH) {
-                        sprite.move(displacementX, 0);
+                        //sprite.move(displacementX, 0);
                         sprite.updatePosition(1, 0);
                     }
                     break;
