@@ -79,8 +79,28 @@ public class Particle {
     }
 
     public void draw(Graphics g) {
+
+
         if (isMagnified){
-            g.fillOval(x, y, gridHeight, gridHeight); // Draw particle as a small circle
+
+            //get position of sprite, check if within area
+            int[] point = new int[]{x, y};
+            int[] rectangle = new int[]{Sprite.x - 16, Sprite.y - 9, Sprite.x + 16, Sprite.y + 9}; //top left (x - 16, y - 9), bottom right (x + 16, y + 9)
+
+            if (isPointInsideRectangle(point, rectangle)){
+
+                int drawX = gridWidth * (x - Sprite.x); // will result to negative when particle is at left of sprite, and positive when at right
+                if(drawX < 0){
+                    drawX = ParticleSimulatorGUI.WINDOW_WIDTH + drawX;
+                }
+                int drawY = gridHeight * (y - Sprite.y);
+                if(drawY < 0){
+                    drawY = ParticleSimulatorGUI.WINDOW_HEIGHT + drawY;
+                }
+
+                g.fillOval(drawX, drawY, gridHeight, gridHeight); // Draw particle as a small circle
+            }
+
         }
         else g.fillOval(x, y, 5, 5); // Draw particle as a small circle
     }
@@ -93,4 +113,16 @@ public class Particle {
     public int getY() {
         return y;
     }
+
+
+    public static boolean isPointInsideRectangle(int[] point, int[] rectangle) {
+        int x = point[0];
+        int y = point[1];
+        int x1 = rectangle[0];
+        int y1 = rectangle[1];
+        int x2 = rectangle[2];
+        int y2 = rectangle[3];
+        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+    }
+
 }

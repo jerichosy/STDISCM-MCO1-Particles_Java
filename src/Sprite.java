@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class Sprite {
     private ImageIcon image;
-    private int x = 500;
-    private int y = 360;
+    public static int x = ParticleSimulatorGUI.WINDOW_WIDTH / 2;
+    public static int y = ParticleSimulatorGUI.WINDOW_HEIGHT / 2;
 
     private int drawX;
 
