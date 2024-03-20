@@ -20,7 +20,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private String particleCount = "Particle Count: 0";
     private boolean isPaused = false;
     private boolean isInDeveloperMode = true;
-    private Sprite sprite;
+    private Sprite sprite = new Sprite("src/Images/sprite.png", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, Particle.gridWidth, Particle.gridHeight);
 
     private long lastUpdateTime = System.currentTimeMillis();
 
@@ -104,7 +104,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Renderer Paused: " + isPaused, 10, 100);
 
-        if (sprite != null){
+        if (sprite.isWillSpawn()){
             sprite.draw(g, this);
         }
 
@@ -328,7 +328,8 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         JPanel currentPanel = (JPanel) modeToggleButton.getParent().getParent();
 
         if (!isInDeveloperMode){
-            sprite = new Sprite("src/Images/sprite.png", 640, 360, 50, 50);
+            sprite.setWillSpawn(true);
+            sprite.printPosition();
 
             // only enable key listening on explorer mode
             setFocusable(true);
@@ -339,7 +340,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             currentPanel.remove(0);
 
         } else {
-            sprite = null;
+            sprite.setWillSpawn(false);
             currentPanel.add(createPanelForLinearParticles(),0);
             currentPanel.add(createPanelForAngularParticles(),1);
             currentPanel.add(createPanelForVelocityParticles(),2);
@@ -386,27 +387,32 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        int displacement = 10;
+        int displacementX = Particle.gridWidth;
+        int displacementY = Particle.gridHeight;
         if(sprite != null) {
             switch (keyCode){
                 case KeyEvent.VK_UP:
-                    if(sprite.getY() > 0){
-                        sprite.move(0, -displacement);
+                    if(sprite.getDrawY() > 0){
+                        sprite.move(0, -displacementY);
+                        sprite.updatePosition(0, -1);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(sprite.getY() + sprite.getHeight() < WINDOW_HEIGHT){
-                        sprite.move(0, displacement);
+                    if(sprite.getDrawY() + sprite.getHeight() < WINDOW_HEIGHT){
+                        sprite.move(0, displacementY);
+                        sprite.updatePosition(0, 1);
                     }
                     break;
                 case KeyEvent.VK_LEFT:
-                    if(sprite.getX() > 0){
-                        sprite.move(-displacement, 0);
+                    if(sprite.getDrawX() > 0){
+                        sprite.move(-displacementX, 0);
+                        sprite.updatePosition(-1, 0);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(sprite.getX() + sprite.getWidth() < WINDOW_WIDTH) {
-                        sprite.move(displacement, 0);
+                    if(sprite.getDrawX() + sprite.getWidth() < WINDOW_WIDTH) {
+                        sprite.move(displacementX, 0);
+                        sprite.updatePosition(1, 0);
                     }
                     break;
             }

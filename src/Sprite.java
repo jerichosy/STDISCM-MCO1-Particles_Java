@@ -3,27 +3,42 @@ import java.awt.*;
 
 public class Sprite {
     private ImageIcon image;
-    private int x;
-    private int y;
+    private int x = 500;
+    private int y = 360;
+
+    private int drawX;
+
+    private int drawY;
     private int width;
     private int height;
 
-    public Sprite(String imagePath, int x, int y, int width,  int height) {
+    private boolean willSpawn = false;
+
+
+
+    public Sprite(String imagePath, int drawX, int drawY, int width,  int height) {
         this.image = new ImageIcon(imagePath);
         this.image.setImage(this.image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        this.x = x;
-        this.y = y;
+        this.drawX = drawX;
+        this.drawY = drawY;
         this.width = width;
         this.height = height;
     }
 
     public void draw(Graphics g, Component observer){
-        image.paintIcon(observer, g, x, y);
+        image.paintIcon(observer, g, drawX, drawY);
     }
 
     public  void move(int dx, int dy){
-        x += dx;
-        y += dy;
+        drawX += dx;
+        drawY += dy;
+    }
+
+    public void updatePosition(int x, int y){
+        this.x += x;
+        this.y += y;
+
+        printPosition();
     }
 
     public int getX() {
@@ -40,5 +55,41 @@ public class Sprite {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getDrawX() {
+        return drawX;
+    }
+
+    public void setDrawX(int drawX) {
+        this.drawX = drawX;
+    }
+
+    public int getDrawY() {
+        return drawY;
+    }
+
+    public void setDrawY(int drawY) {
+        this.drawY = drawY;
+    }
+
+    public boolean isWillSpawn() {
+        return willSpawn;
+    }
+
+    public void setWillSpawn(boolean willSpawn) {
+        this.willSpawn = willSpawn;
+
+        if (willSpawn){
+            drawX = ParticleSimulatorGUI.WINDOW_WIDTH / 2;
+            drawY = ParticleSimulatorGUI.WINDOW_HEIGHT / 2;
+        }
+    }
+
+
+    public void printPosition(){
+        System.out.printf(
+                "Position X: %d, Position Y: %d%n", x, y
+        );
     }
 }

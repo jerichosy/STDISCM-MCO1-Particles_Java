@@ -8,11 +8,11 @@ public class Particle {
     private boolean isMagnified = false;
 
     //    private boolean isInExplorerMode = false;
-    private final int PERIPHERY_WIDTH = 33;
-    private final int PERIPHERY_HEIGHT = 19;
+    public static final int PERIPHERY_WIDTH = 33;
+    public static final int PERIPHERY_HEIGHT = 19;
 
-    private final int gridWidth = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_WIDTH;
-    private final int gridHeight = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_HEIGHT;
+    public static int gridWidth = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_WIDTH;
+    public static int gridHeight = ParticleSimulatorGUI.WINDOW_HEIGHT / PERIPHERY_HEIGHT;
 
 
     public Particle(int x, int y, double velocity, double angle, int WINDOW_HEIGHT) {
