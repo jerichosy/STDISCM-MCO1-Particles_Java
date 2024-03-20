@@ -27,7 +27,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private Sprite sprite = new Sprite("src/Images/sprite.png", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, Particle.gridWidth, Particle.gridHeight);
 
     private long lastUpdateTime = System.currentTimeMillis();
-    private BufferedImage backgroundImage;
 
 
 
@@ -49,11 +48,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
         this.addKeyListener(this);
 
-        try {
-            backgroundImage = ImageIO.read(new File("src/Images/bg.jpg")); // Replace "path/to/your/image.jpg" with the actual path to your image
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -77,15 +71,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
-        }
-
-        if (sprite.isWillSpawn()) {
-            // Assuming you have a BufferedImage named backgroundImage
-            backgroundImage.getScaledInstance(sprite.getWidth(), sprite.getHeight(), Image.SCALE_DEFAULT);
-            g.drawImage(backgroundImage, 0, 0, null);
-        }
+        // Render zoomed background image if it exists
 
         int spriteX = sprite.getDrawX();
         int spriteY = sprite.getDrawY();
@@ -380,6 +366,12 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         repaint();
     }
 
+
+
+
+
+
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Particle Simulator");
@@ -418,39 +410,33 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-//        int displacementX = Particle.gridWidth;
-//        int displacementY = Particle.gridHeight;
-        int displacementX = 20;
-        int displacementY = 20;
-
-        int centerX = WINDOW_WIDTH / 2;
-        int centerY = WINDOW_HEIGHT / 2;
+        int displacement = 1;
 
 
         if(sprite != null) {
             switch (keyCode){
                 case KeyEvent.VK_UP:
-                    if(sprite.getDrawY() > 0){
+                    if(sprite.getY() > 0){
                         //sprite.move(0, -displacementY);
-                        sprite.updatePosition(0, -1);
+                        sprite.updatePosition(0, -displacement);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(sprite.getDrawY() + sprite.getHeight() < WINDOW_HEIGHT){
+                    if(sprite.getY() + sprite.getHeight() < WINDOW_HEIGHT){
                         //sprite.move(0, displacementY);
-                        sprite.updatePosition(0, 1);
+                        sprite.updatePosition(0, displacement);
                     }
                     break;
                 case KeyEvent.VK_LEFT:
-                    if(sprite.getDrawX() > 0){
+                    if(sprite.getX() > 0){
                         //sprite.move(-displacementX, 0);
-                        sprite.updatePosition(-1, 0);
+                        sprite.updatePosition(-displacement, 0);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(sprite.getDrawX() + sprite.getWidth() < WINDOW_WIDTH) {
+                    if(sprite.getX() + sprite.getWidth() < WINDOW_WIDTH) {
                         //sprite.move(displacementX, 0);
-                        sprite.updatePosition(1, 0);
+                        sprite.updatePosition(displacement, 0);
                     }
                     break;
             }
