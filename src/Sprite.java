@@ -14,7 +14,15 @@ public class Sprite {
 
     private boolean willSpawn = false;
 
+    private int excessX = 0;
+    private int excessY = 0;
 
+    public static final int PERIPHERY_WIDTH = 33;
+    public static final int PERIPHERY_HEIGHT = 19;
+
+    private final int MID_PERIHERAL_WIDTH = PERIPHERY_WIDTH / 2;
+
+    private final int MID_PERIHERAL_HEIGHT = PERIPHERY_HEIGHT / 2;
 
     public Sprite(String imagePath, int drawX, int drawY, int width,  int height) {
         this.image = new ImageIcon(imagePath);
@@ -57,8 +65,13 @@ public class Sprite {
 //        System.out.println("dx: " + dx + ", dy: " + dy);
 //    }
     public void updatePosition(int x, int y){
+
         this.x += x;
+        excessX = Math.abs(Math.min(Math.min(0, this.x - MID_PERIHERAL_WIDTH), ParticleSimulatorGUI.WINDOW_WIDTH - (this.x + MID_PERIHERAL_WIDTH)));
+
         this.y += y;
+        excessY = Math.abs(Math.min(Math.min(0, this.y - MID_PERIHERAL_HEIGHT), ParticleSimulatorGUI.WINDOW_HEIGHT - (this.y + MID_PERIHERAL_HEIGHT)));
+
 
         printPosition();
     }
@@ -111,8 +124,16 @@ public class Sprite {
 
     public void printPosition(){
         System.out.printf(
-                "Position X: %d, Position Y: %d%n", x, y
+                "Position X: %d, Position Y: %d, ExcessX: %d, Excess: %d%n", x, y, excessX, excessY
         );
+    }
+
+    public int getExcessX() {
+        return excessX;
+    }
+
+    public int getExcessY() {
+        return excessY;
     }
 }
 

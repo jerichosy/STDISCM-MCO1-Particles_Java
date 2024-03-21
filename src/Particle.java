@@ -7,12 +7,16 @@ public class Particle {
 
     private boolean isMagnified = false;
 
-    //    private boolean isInExplorerMode = false;
-    public static final int PERIPHERY_WIDTH = 33;
-    public static final int PERIPHERY_HEIGHT = 19;
+    private int red;
+    private int green;
+    private int blue;
 
-    public static int gridWidth = ParticleSimulatorGUI.WINDOW_WIDTH / PERIPHERY_WIDTH;
-    public static int gridHeight = ParticleSimulatorGUI.WINDOW_HEIGHT / PERIPHERY_HEIGHT;
+
+    //    private boolean isInExplorerMode = false;
+
+
+    public static int gridWidth = ParticleSimulatorGUI.WINDOW_WIDTH / Sprite.PERIPHERY_WIDTH;
+    public static int gridHeight = ParticleSimulatorGUI.WINDOW_HEIGHT / Sprite.PERIPHERY_HEIGHT;
 
 
     public Particle(int x, int y, double velocity, double angle, int WINDOW_HEIGHT) {
@@ -20,6 +24,13 @@ public class Particle {
         this.y = WINDOW_HEIGHT - y;
         this.velocity = velocity;
         this.angle = angle;
+        this.red = random(255);
+        this.green = random(255);
+        this.blue = random(255);
+    }
+
+    public static int random(int maxRange) {
+        return (int) Math.round((Math.random() * maxRange));
     }
 
     public void setMagnified(boolean toggle) {
@@ -78,19 +89,21 @@ public class Particle {
         return false;
     }
 
-    public void draw(Graphics g, int spriteX, int spriteY) {
+    public void draw(Graphics g, int spriteX, int spriteY, int spriteExX, int spriteExY) {
         if (isMagnified) {
             // Calculate the drawX and drawY based on the sprite's position
-            int drawX = spriteX + (x - spriteX) * gridWidth - gridWidth / 2;
-            int drawY = spriteY + (y - spriteY) * gridHeight - gridHeight / 2;
+            int drawX = (spriteX) + (x - spriteX + spriteExX + 1) * gridWidth;
+            int drawY = (spriteY) + (y - spriteY + spriteExY + 1) * gridHeight;
 
             // Check if the calculated coordinates are within the bounds of the window
             if (drawX >= 0 && drawX < ParticleSimulatorGUI.WINDOW_WIDTH &&
                     drawY >= 0 && drawY < ParticleSimulatorGUI.WINDOW_HEIGHT) {
+                g.setColor(new Color(red, green, blue));
                 g.fillOval(drawX, drawY, gridHeight, gridHeight); // Draw particle as a small circle
             }
         } else {
             // Draw the particle at its original position
+            g.setColor(new Color(red, green, blue));
             g.fillOval(x, y, 5, 5); // Draw particle as a small circle
         }
 
