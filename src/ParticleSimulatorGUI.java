@@ -24,7 +24,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private String particleCount = "Particle Count: 0";
     private boolean isPaused = false;
     private boolean isInDeveloperMode = true;
-    private Sprite sprite = new Sprite("src/Images/sprite.png", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, Particle.gridWidth, Particle.gridHeight);
+    private Sprite sprite = new Sprite("src/Images/sprite.png", Particle.gridWidth , Particle.gridHeight);
 
     private long lastUpdateTime = System.currentTimeMillis();
 
@@ -79,15 +79,15 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
 
         // Translate the graphics context to center the sprite on the screen
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.translate(WINDOW_WIDTH / 2 - spriteX, WINDOW_HEIGHT / 2 - spriteY);
+//        Graphics2D g2d = (Graphics2D) g.create();
+//        g2d.translate(WINDOW_WIDTH / 2 - spriteX, WINDOW_HEIGHT / 2 - spriteY);
 
         for (Particle particle : particles) {
             particle.setMagnified(!isInDeveloperMode);
             particle.draw(g, sprite.getX(), sprite.getY(), sprite.getExcessX(), sprite.getExcessY()); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
 
-        g2d.dispose(); // Dispose of the graphics context
+//        g2d.dispose(); // Dispose of the graphics context
 
         frames++; // Increment frame count
 
@@ -200,12 +200,12 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        JTextField nField = new JTextField("200", 5);
+        JTextField nField = new JTextField("1280", 5);
         JTextField startXField = new JTextField("0", 5);
-        JTextField startYField = new JTextField("300", 5);
-        JTextField endXField = new JTextField("10", 5);
-        JTextField endYField = new JTextField("400", 5);
-        JTextField velocityField = new JTextField("2000", 5);
+        JTextField startYField = new JTextField("360", 5);
+        JTextField endXField = new JTextField("1280", 5);
+        JTextField endYField = new JTextField("360", 5);
+        JTextField velocityField = new JTextField("1", 5);
         JTextField angleField = new JTextField("0", 5);
         JButton addButton = new JButton("Add Linear");
 
@@ -422,7 +422,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(sprite.getY() + sprite.getHeight() <= WINDOW_HEIGHT){
+                    if(sprite.getY() < WINDOW_HEIGHT){
                         //sprite.move(0, displacementY);
                         sprite.updatePosition(0, displacement);
                     }
@@ -434,7 +434,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(sprite.getX() + sprite.getWidth() <= WINDOW_WIDTH) {
+                    if(sprite.getX() < WINDOW_WIDTH) {
                         //sprite.move(displacementX, 0);
                         sprite.updatePosition(displacement, 0);
                     }

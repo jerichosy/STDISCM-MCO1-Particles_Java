@@ -6,9 +6,6 @@ public class Sprite {
     private int x = ParticleSimulatorGUI.WINDOW_WIDTH / 2;
     private int y = ParticleSimulatorGUI.WINDOW_HEIGHT / 2;
 
-    private int drawX;
-
-    private int drawY;
     private int width;
     private int height;
 
@@ -20,15 +17,17 @@ public class Sprite {
     public static final int PERIPHERY_WIDTH = 33;
     public static final int PERIPHERY_HEIGHT = 19;
 
-    private final int MID_PERIHERAL_WIDTH = PERIPHERY_WIDTH / 2;
+    private final int MID_PERIPHERAL_WIDTH = (int) Math.floor(PERIPHERY_WIDTH / 2.0f);
 
-    private final int MID_PERIHERAL_HEIGHT = PERIPHERY_HEIGHT / 2;
+    private final int MID_PERIPHERAL_HEIGHT = (int) Math.floor(PERIPHERY_HEIGHT / 2.0f);
 
-    public Sprite(String imagePath, int drawX, int drawY, int width,  int height) {
+    private int drawX = Particle.gridWidth *  MID_PERIPHERAL_WIDTH;
+
+    private int drawY = Particle.gridHeight * MID_PERIPHERAL_HEIGHT;
+
+    public Sprite(String imagePath, int width,  int height) {
         this.image = new ImageIcon(imagePath);
         this.image.setImage(this.image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        this.drawX = drawX;
-        this.drawY = drawY;
         this.width = width;
         this.height = height;
     }
@@ -67,10 +66,10 @@ public class Sprite {
     public void updatePosition(int x, int y){
 
         this.x += x;
-        excessX = Math.abs(Math.min(Math.min(0, this.x - MID_PERIHERAL_WIDTH), ParticleSimulatorGUI.WINDOW_WIDTH - (this.x + MID_PERIHERAL_WIDTH)));
+        excessX = Math.abs(Math.min(Math.min(0, this.x - MID_PERIPHERAL_WIDTH), ParticleSimulatorGUI.WINDOW_WIDTH - (this.x + MID_PERIPHERAL_WIDTH)));
 
         this.y += y;
-        excessY = Math.abs(Math.min(Math.min(0, this.y - MID_PERIHERAL_HEIGHT), ParticleSimulatorGUI.WINDOW_HEIGHT - (this.y + MID_PERIHERAL_HEIGHT)));
+        excessY = Math.abs(Math.min(Math.min(0, this.y - MID_PERIPHERAL_HEIGHT), ParticleSimulatorGUI.WINDOW_HEIGHT - (this.y + MID_PERIPHERAL_HEIGHT)));
 
 
         printPosition();
@@ -114,11 +113,6 @@ public class Sprite {
 
     public void setWillSpawn(boolean willSpawn) {
         this.willSpawn = willSpawn;
-
-        if (willSpawn){
-            drawX = ParticleSimulatorGUI.WINDOW_WIDTH / 2;
-            drawY = ParticleSimulatorGUI.WINDOW_HEIGHT / 2;
-        }
     }
 
 
