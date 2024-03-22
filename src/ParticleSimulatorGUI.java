@@ -298,7 +298,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             double velocity = Double.parseDouble(velocityField.getText());
 
             addParticlesAngular(n, startPoint, velocity, startAngle, endAngle);
-            repaint();
         });
 
         panel.add(new JLabel("N: "));
@@ -336,7 +335,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             double angle = Double.parseDouble(angleField.getText());
 
             addParticlesVelocity(n, startPoint, startVelocity, endVelocity, angle);
-            repaint();
         });
 
         panel.add(new JLabel("N: "));
