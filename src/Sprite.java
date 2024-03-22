@@ -66,10 +66,10 @@ public class Sprite {
     public void updatePosition(int x, int y){
 
         this.x += x;
-        excessX = Math.abs(Math.min(Math.min(0, this.x - MID_PERIPHERAL_WIDTH), ParticleSimulatorGUI.WINDOW_WIDTH - (this.x + MID_PERIPHERAL_WIDTH)));
+        excessX = Math.max(Math.min(0, this.x - MID_PERIPHERAL_WIDTH), (this.x + MID_PERIPHERAL_WIDTH) - ParticleSimulatorGUI.WINDOW_WIDTH );
 
         this.y += y;
-        excessY = Math.abs(Math.min(Math.min(0, this.y - MID_PERIPHERAL_HEIGHT), ParticleSimulatorGUI.WINDOW_HEIGHT - (this.y + MID_PERIPHERAL_HEIGHT)));
+        excessY = Math.max(Math.min(0, this.y - MID_PERIPHERAL_HEIGHT), (this.y + MID_PERIPHERAL_HEIGHT) - ParticleSimulatorGUI.WINDOW_HEIGHT);
 
 
         printPosition();

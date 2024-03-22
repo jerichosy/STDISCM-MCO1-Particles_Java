@@ -92,20 +92,20 @@ public class Particle {
     public void draw(Graphics g, int spriteX, int spriteY, int spriteExX, int spriteExY) {
         if (isMagnified) {
             // Calculate the drawX and drawY based on the sprite's position
-            int drawX = (spriteX) + (x - spriteX + spriteExX) * (gridWidth) - (gridWidth / 2);
-            int drawY = (spriteY) + (y - spriteY + spriteExY) * (gridHeight) - (gridHeight / 2);
+            int drawX = (spriteX) + (x - spriteX + (spriteExX * -1)) * (gridWidth) - (gridWidth / 2);
+            int drawY = (spriteY) + (y - spriteY + (spriteExY * -1)) * (gridHeight) - (gridHeight / 2);
 
             // Check if the calculated coordinates are within the bounds of the window
             if (drawX >= 0 && drawX < ParticleSimulatorGUI.WINDOW_WIDTH &&
                     drawY >= 0 && drawY < ParticleSimulatorGUI.WINDOW_HEIGHT) {
-                g.setColor(new Color(red, green, blue));
+//                g.setColor(new Color(red, green, blue));
                 g.fillOval(drawX, drawY, gridWidth, gridHeight); // Draw particle as a small circle
 
 //                System.out.printf("Particle X: %d, Particle Y: %d%n", x, y);
             }
         } else {
             // Draw the particle at its original position
-            g.setColor(new Color(red, green, blue));
+//            g.setColor(new Color(red, green, blue));
             g.fillOval(x, y, 5, 5); // Draw particle as a small circle
         }
 
