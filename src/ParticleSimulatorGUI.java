@@ -71,23 +71,12 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Render zoomed background image if it exists
-
-        int spriteX = sprite.getDrawX();
-        int spriteY = sprite.getDrawY();
-
-
-
-        // Translate the graphics context to center the sprite on the screen
-//        Graphics2D g2d = (Graphics2D) g.create();
-//        g2d.translate(WINDOW_WIDTH / 2 - spriteX, WINDOW_HEIGHT / 2 - spriteY);
-
         for (Particle particle : particles) {
             particle.setMagnified(!isInDeveloperMode);
             particle.draw(g, sprite.getX(), sprite.getY(), sprite.getExcessX(), sprite.getExcessY()); // Let each particle draw itself
         } // At 60k particles, this takes 110-120ms
 
-//        g2d.dispose(); // Dispose of the graphics context
+
 
         frames++; // Increment frame count
 
@@ -121,9 +110,29 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Renderer Paused: " + isPaused, 10, 100);
 
-        if (sprite.isWillSpawn()){
+        if (sprite.isWillSpawn()) {
+            int excessX = sprite.getExcessX();
+            int excessY = sprite.getExcessY();
+            if (excessY < 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), (-excessY * Particle.gridHeight));
+            }
+            if (excessX < 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, (-excessX * Particle.gridHeight) + 16, getHeight()); // 16 yung hard code bug fix !!!!
+            }
+            if (excessY > 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, getHeight() - (excessY * Particle.gridHeight), getWidth(), excessY);
+            }
+            if (excessX > 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(getWidth() - (excessX * Particle.gridHeight) + 16, 0, excessX, getHeight()); // 16 yung hard code bug fix !!!!
+            }
+
             sprite.draw(g, this);
         }
+
 
     }
 
