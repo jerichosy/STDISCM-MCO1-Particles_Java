@@ -91,13 +91,13 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                 g.fillRect(0, 0, getWidth(), -excessY);
             }
             if (excessX < 0) {
-                g.fillRect(0, 0, -excessX, getHeight());
+                g.fillRect(0, 0, -excessX + 16, getHeight());
             }
             if (excessY > 0) {
-                g.fillRect(0, getHeight() - excessY -16, getWidth(), excessY);
+                g.fillRect(0, getHeight() - excessY - 32, getWidth(), excessY);
             }
             if (excessX > 0) {
-                g.fillRect(getWidth() - excessX, 0, excessX, getHeight());
+                g.fillRect(getWidth() - excessX - 8, 0, excessX, getHeight());
             }
 //            int excessX = sprite.getExcessX();
 //            int excessY = sprite.getExcessY();
@@ -434,7 +434,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        int displacement = 1;
+        int displacement = 10;
 
         if(sprite != null) {
             switch (keyCode){
