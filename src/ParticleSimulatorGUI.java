@@ -263,7 +263,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         JTextField startYField = new JTextField("360", 5);
         JTextField endXField = new JTextField("1280", 5);
         JTextField endYField = new JTextField("360", 5);
-        JTextField velocityField = new JTextField("1", 5);
+        JTextField velocityField = new JTextField("0", 5);
         JTextField angleField = new JTextField("0", 5);
         JButton addButton = new JButton("Add Linear");
 
