@@ -77,10 +77,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         } // At 60k particles, this takes 110-120ms
 
 
-
         frames++; // Increment frame count
-
-
 
         if (sprite.isWillSpawn()) {
             int excessX = sprite.getExcessX();
@@ -105,16 +102,9 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             sprite.draw(g, this);
         }
 
-        if (!isInDeveloperMode) {
-            g.setColor(Color.CYAN);
-            String spriteCoordinates = String.format("Sprite X: %d, Y: %d", sprite.getX(), sprite.getY());
-            g.drawString(spriteCoordinates, 10, 120);
-        }
-
         // Draw a semi-transparent background for the FPS counter for better readability
         g.setColor(new Color(0, 0, 0, 128)); // Black with 50% opacity
         g.fillRect(5, 5, 100, 20); // Adjust the size according to your needs
-
         // Set the color for the FPS text
         g.setColor(Color.WHITE); // White color for the text
         g.drawString(fps, 10, 20); // Draw FPS counter on screen
@@ -122,27 +112,33 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         // Draw a semi-transparent background for the Particle Count counter for better readability
         g.setColor(new Color(0, 0, 0, 128)); // Black with 50% opacity
         g.fillRect(5, 30, 150, 20); // Adjust the size according to your needs
-
         // Set the color for the Particle Count text
         g.setColor(Color.WHITE); // White color for the text
         g.drawString(particleCount, 10, 45); // Draw Particle Count on screen
 
-        // Display Developer/Explorer mode button
-        g.setColor(Color.GRAY); // Semi-transparent gray color
-        g.fillRect(5, 60, 150, 20); // Adjust size as needed
-        g.setColor(Color.WHITE);
-        g.drawString(isInDeveloperMode ? "Developer Mode" : "Explorer Mode", 10, 75);
-
-        // Display pause state with dynamic color
+        // Draw a background with dynamic color for the pause state for better readability
         g.setColor(isPaused ? Color.RED : new Color(0, 255, 0)); // Red if paused, Green if not
-        g.fillRect(5, 85, 150, 20); // Adjust size as needed
-
-        // display pause state
+        g.fillRect(5, 55, 150, 20); // Adjust size as needed
+        // Set the color for the pause state text
         g.setColor(Color.WHITE);
-        g.drawString("Renderer Paused: " + isPaused, 10, 100);
+        g.drawString("Renderer Paused: " + isPaused, 10, 70);
 
+        // Draw a semi-transparent background for the Developer/Explorer mode for better readability
+        g.setColor(new Color(0, 0, 0, 128)); // Black with 50% opacity
+        g.fillRect(5, 85, 150, 20); // Adjust size as needed
+        // Set the color for the Developer/Explorer mode text
+        g.setColor(Color.WHITE);
+        g.drawString(isInDeveloperMode ? "Developer Mode" : "Explorer Mode", 10, 100);
 
-
+        if (!isInDeveloperMode) {
+            // Draw a semi-transparent background for the Sprite position coords for better readability
+            g.setColor(new Color(0, 0, 0, 128)); // Black with 50% opacity
+            g.fillRect(5, 110, 150, 20); // Adjust size as needed
+            // Set the color for the Sprite position coords text
+            g.setColor(Color.CYAN);
+            String spriteCoordinates = String.format("Sprite X: %d, Y: %d", sprite.getX(), sprite.getY());
+            g.drawString(spriteCoordinates, 10, 125);
+        }
     }
 
     public void addParticlesLinear(int n, Point startPoint, Point endPoint, double velocity, double angle) {
