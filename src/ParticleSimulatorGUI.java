@@ -80,6 +80,37 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
         frames++; // Increment frame count
 
+
+
+        if (sprite.isWillSpawn()) {
+            int excessX = sprite.getExcessX();
+            int excessY = sprite.getExcessY();
+            if (excessY < 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), (-excessY * Particle.gridHeight));
+            }
+            if (excessX < 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, (-excessX * Particle.gridHeight) + 16, getHeight()); // 16 yung hard code bug fix !!!!
+            }
+            if (excessY > 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, getHeight() - (excessY * Particle.gridHeight), getWidth(), excessY);
+            }
+            if (excessX > 0) {
+                g.setColor(Color.BLACK);
+                g.fillRect(getWidth() - (excessX * Particle.gridHeight) + 16, 0, excessX, getHeight()); // 16 yung hard code bug fix !!!!
+            }
+
+            sprite.draw(g, this);
+        }
+
+        if (!isInDeveloperMode) {
+            g.setColor(Color.CYAN);
+            String spriteCoordinates = String.format("Sprite X: %d, Y: %d", sprite.getX(), sprite.getY());
+            g.drawString(spriteCoordinates, 10, 120);
+        }
+
         // Draw a semi-transparent background for the FPS counter for better readability
         g.setColor(new Color(0, 0, 0, 128)); // Black with 50% opacity
         g.fillRect(5, 5, 100, 20); // Adjust the size according to your needs
@@ -110,28 +141,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Renderer Paused: " + isPaused, 10, 100);
 
-        if (sprite.isWillSpawn()) {
-            int excessX = sprite.getExcessX();
-            int excessY = sprite.getExcessY();
-            if (excessY < 0) {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, getWidth(), (-excessY * Particle.gridHeight));
-            }
-            if (excessX < 0) {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, (-excessX * Particle.gridHeight) + 16, getHeight()); // 16 yung hard code bug fix !!!!
-            }
-            if (excessY > 0) {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, getHeight() - (excessY * Particle.gridHeight), getWidth(), excessY);
-            }
-            if (excessX > 0) {
-                g.setColor(Color.BLACK);
-                g.fillRect(getWidth() - (excessX * Particle.gridHeight) + 16, 0, excessX, getHeight()); // 16 yung hard code bug fix !!!!
-            }
-
-            sprite.draw(g, this);
-        }
 
 
     }
