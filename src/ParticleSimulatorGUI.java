@@ -29,7 +29,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private long lastUpdateTime = System.currentTimeMillis();
 
 
-
     public ParticleSimulatorGUI() {
 
         // Swing Timer for animation

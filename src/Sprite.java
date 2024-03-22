@@ -5,7 +5,6 @@ public class Sprite {
     private ImageIcon image;
     private int x = ParticleSimulatorGUI.WINDOW_WIDTH / 2;
     private int y = ParticleSimulatorGUI.WINDOW_HEIGHT / 2;
-
     private int width;
     private int height;
 
@@ -18,12 +17,11 @@ public class Sprite {
     public static final int PERIPHERY_HEIGHT = 19;
 
     private final int MID_PERIPHERAL_WIDTH = (int) Math.floor(PERIPHERY_WIDTH / 2.0f);
-
     private final int MID_PERIPHERAL_HEIGHT = (int) Math.floor(PERIPHERY_HEIGHT / 2.0f);
 
     private int drawX = Particle.gridWidth *  MID_PERIPHERAL_WIDTH;
-
     private int drawY = Particle.gridHeight * MID_PERIPHERAL_HEIGHT;
+
 
     public Sprite(String imagePath, int width,  int height) {
         this.image = new ImageIcon(imagePath);

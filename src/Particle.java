@@ -11,9 +11,7 @@ public class Particle {
     private int green;
     private int blue;
 
-
-    //    private boolean isInExplorerMode = false;
-
+//    private boolean isInExplorerMode = false;
 
     public static int gridWidth = Math.round((ParticleSimulatorGUI.WINDOW_WIDTH * 1.0f) / Sprite.PERIPHERY_WIDTH);
     public static int gridHeight = Math.round((ParticleSimulatorGUI.WINDOW_HEIGHT * 1.0f) / Sprite.PERIPHERY_HEIGHT);
