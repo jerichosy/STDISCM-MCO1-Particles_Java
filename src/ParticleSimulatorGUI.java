@@ -360,7 +360,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
         isInDeveloperMode = !isInDeveloperMode;
         modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
-        JPanel currentPanel = (JPanel) modeToggleButton.getParent().getParent();
+        JPanel currentContainerPanel = (JPanel) modeToggleButton.getParent().getParent();
 
         if (!isInDeveloperMode){
             sprite.setWillSpawn(true);
@@ -370,15 +370,15 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             setFocusable(true);
             requestFocusInWindow();
 
-            currentPanel.remove(0);
-            currentPanel.remove(0);
-            currentPanel.remove(0);
+            currentContainerPanel.getComponent(0).setVisible(false);
+            currentContainerPanel.getComponent(1).setVisible(false);
+            currentContainerPanel.getComponent(2).setVisible(false);
 
         } else {
             sprite.setWillSpawn(false);
-            currentPanel.add(createPanelForLinearParticles(),0);
-            currentPanel.add(createPanelForAngularParticles(),1);
-            currentPanel.add(createPanelForVelocityParticles(),2);
+            currentContainerPanel.getComponent(0).setVisible(true);
+            currentContainerPanel.getComponent(1).setVisible(true);
+            currentContainerPanel.getComponent(2).setVisible(true);
         }
 
         repaint();
