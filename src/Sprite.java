@@ -94,7 +94,7 @@ public class Sprite {
 
     public void printPosition(){
         System.out.printf(
-                "Position X: %d, Position Y: %d, ExcessX: %d, Excess: %d%n", x, y, excessX, excessY
+                "Sprite (X: %d, Y: %d, User Y: %d), Excess (X: %d, Y: %d)%n", x, y, ParticleSimulatorGUI.WINDOW_HEIGHT - y, excessX, excessY
         );
     }
 

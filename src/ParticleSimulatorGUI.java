@@ -155,7 +155,7 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             g.fillRect(5, 110, 150, 20); // Adjust size as needed
             // Set the color for the Sprite position coords text
             g.setColor(Color.CYAN);
-            String spriteCoordinates = String.format("Sprite X: %d, Y: %d", sprite.getX(), sprite.getY());
+            String spriteCoordinates = String.format("Sprite X: %d, Y: %d", sprite.getX(), WINDOW_HEIGHT - sprite.getY());
             g.drawString(spriteCoordinates, 10, 125);
         }
     }
