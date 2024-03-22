@@ -98,14 +98,14 @@ public class Particle {
             // Check if the calculated coordinates are within the bounds of the window
             if (drawX >= 0 && drawX < ParticleSimulatorGUI.WINDOW_WIDTH &&
                     drawY >= 0 && drawY < ParticleSimulatorGUI.WINDOW_HEIGHT) {
-//                g.setColor(new Color(red, green, blue));
+                g.setColor(new Color(red, green, blue));
                 g.fillOval(drawX, drawY, gridWidth, gridHeight); // Draw particle as a small circle
 
 //                System.out.printf("Particle X: %d, Particle Y: %d%n", x, y);
             }
         } else {
             // Draw the particle at its original position
-//            g.setColor(new Color(red, green, blue));
+            g.setColor(new Color(red, green, blue));
             g.fillOval(x, y, 5, 5); // Draw particle as a small circle
         }
 
