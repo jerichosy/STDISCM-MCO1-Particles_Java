@@ -150,7 +150,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             particles.add(new Particle(x, y, velocity, angle, WINDOW_HEIGHT));
         }
     }
-
     public void addParticlesAngular(int n, Point startPoint, double velocity, double startAngle, double endAngle) {
         double deltaAngle = (endAngle - startAngle) / (n - 1);
 
@@ -209,6 +208,32 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
             setFocusable(true);
             requestFocusInWindow();
         }
+    }
+    private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
+        isInDeveloperMode = !isInDeveloperMode;
+        modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
+        JPanel currentContainerPanel = (JPanel) modeToggleButton.getParent().getParent();
+
+        if (!isInDeveloperMode){
+            sprite.setWillSpawn(true);
+            sprite.printPosition();
+
+            // only enable key listening on explorer mode
+            setFocusable(true);
+            requestFocusInWindow();
+
+            currentContainerPanel.getComponent(0).setVisible(false);
+            currentContainerPanel.getComponent(1).setVisible(false);
+            currentContainerPanel.getComponent(2).setVisible(false);
+
+        } else {
+            sprite.setWillSpawn(false);
+            currentContainerPanel.getComponent(0).setVisible(true);
+            currentContainerPanel.getComponent(1).setVisible(true);
+            currentContainerPanel.getComponent(2).setVisible(true);
+        }
+
+        repaint();
     }
     private JPanel createPanelForLinearParticles() {
         JPanel panel = new JPanel(new FlowLayout());
@@ -352,38 +377,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
 
         return panel;
     }
-    private void toggleDeveloperExplorerMode(JButton modeToggleButton) {
-        isInDeveloperMode = !isInDeveloperMode;
-        modeToggleButton.setText(isInDeveloperMode ? "Switch to Explorer Mode" : "Switch to Developer Mode");
-        JPanel currentContainerPanel = (JPanel) modeToggleButton.getParent().getParent();
-
-        if (!isInDeveloperMode){
-            sprite.setWillSpawn(true);
-            sprite.printPosition();
-
-            // only enable key listening on explorer mode
-            setFocusable(true);
-            requestFocusInWindow();
-
-            currentContainerPanel.getComponent(0).setVisible(false);
-            currentContainerPanel.getComponent(1).setVisible(false);
-            currentContainerPanel.getComponent(2).setVisible(false);
-
-        } else {
-            sprite.setWillSpawn(false);
-            currentContainerPanel.getComponent(0).setVisible(true);
-            currentContainerPanel.getComponent(1).setVisible(true);
-            currentContainerPanel.getComponent(2).setVisible(true);
-        }
-
-        repaint();
-    }
-
-
-
-
-
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -425,7 +418,6 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
         int keyCode = e.getKeyCode();
         int displacement = 1;
 
-
         if(sprite != null) {
             switch (keyCode){
                 case KeyEvent.VK_UP:
@@ -453,11 +445,13 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
                     }
                     break;
             }
+
             repaint();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
     }
 }

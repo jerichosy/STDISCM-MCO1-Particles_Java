@@ -41,7 +41,6 @@ public class Sprite {
         drawY += dy;
     }
 
-
     public void updatePosition(int x, int y){
 
         this.x += x;
@@ -49,7 +48,6 @@ public class Sprite {
 
         this.y += y;
         excessY = Math.max(Math.min(0, this.y - MID_PERIPHERAL_HEIGHT), (this.y + MID_PERIPHERAL_HEIGHT) - ParticleSimulatorGUI.WINDOW_HEIGHT);
-
 
         printPosition();
     }
@@ -93,7 +91,6 @@ public class Sprite {
     public void setWillSpawn(boolean willSpawn) {
         this.willSpawn = willSpawn;
     }
-
 
     public void printPosition(){
         System.out.printf(
