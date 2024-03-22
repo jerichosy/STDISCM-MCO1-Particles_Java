@@ -70,6 +70,10 @@ public class ParticleSimulatorGUI extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // Draw a thin border on the canvas
+        g.setColor(Color.BLACK);
+        g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+
         for (Particle particle : particles) {
             particle.setMagnified(!isInDeveloperMode);
             particle.draw(g, sprite.getX(), sprite.getY(), sprite.getExcessX(), sprite.getExcessY()); // Let each particle draw itself
